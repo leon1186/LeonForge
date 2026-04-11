@@ -1,0 +1,11 @@
+asgiref==3.11.1
+Django==6.0.2
+sqlparse==0.5.5
+djangorestframework
+psycopg[binary]
+gunicorn
+django-cors-headers
+Pillow>=10.0.0
+django-storages
+boto3
+djangorestframework-simplejwt

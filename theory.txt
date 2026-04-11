@@ -1,0 +1,116 @@
+pip install -r requirements.txt 
+pip list
+
+models info 
+
+
+(venv) ➜  api git:(main) ✗ docker compose exec backend python manage.py makemigrations
+docker compose exec backend python manage.py migrate
+no configuration file provided: not found
+no configuration file provided: not found
+
+
+inside api
+python manage.py makemigrations
+python manage.py migrate
+
+
+
+docker logs leonforge_api --tail 50
+
+
+reminders:
+python manage.py runserver vs docker compose exec api python manage.py runserver 0.0.0.0:8001
+
+
+
+
+event-project/
+│
+├── backend/
+│   ├── config/
+│   ├── apps/
+│   │   
+        
+│   ├── manage.py
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── Dockerfile
+│
+├── nginx/
+│   ├── default.conf
+│   └── Dockerfile
+│
+├── docker-compose.yml
+└── .env
+
+apps/
+├── events/
+├── inquiries/
+└── bookings/
+
+🎯 Simple Analogy
+Think of it like an apartment building:
+localhost = the street address
+Docker = the building lobby
+0.0.0.0 = the apartment door unlocked
+Gunicorn = the receptionist
+Django = the office inside
+
+
+Browser
+   ↓
+localhost:8001
+   ↓
+Docker
+   ↓
+Gunicorn (0.0.0.0:8000)
+   ↓
+Django
+   ↓
+Postgres
+###############################
+
+Browser
+   ↓
+Public IP
+   ↓
+Nginx
+   ↓
+Gunicorn (0.0.0.0:8000)
+   ↓
+Django
+
+
+git rm --cached .env
+git commit -m "Remove .env from repo"
+git push
+
+
+
+
+git rm --cached theory.txt
+git commit -m "Stop tracking theory.txt"
+git push
+
+
+
+
+
+Frontend Website
+        ↓
+Django REST API
+        ↓
+Apps
+ ├── inquiries (lead capture)
+ ├── bookings (reservation)
+ └── events (calendar)
+        ↓
+PostgreSQL
+        ↓
+Stripe payments

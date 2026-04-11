@@ -1,0 +1,65 @@
+.event-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #101010, #1d1a1a 65%, #242019);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+  transition:
+    transform 0.24s ease,
+    box-shadow 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.event-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(243, 196, 111, 0.4);
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.5);
+}
+
+.event-card img {
+  display: block;
+  width: 100%;
+  height: 215px;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.35s ease;
+}
+
+.event-card:hover img {
+  transform: scale(1.05);
+}
+
+.event-card__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 14px 14px 12px;
+  color: #f7f7f7;
+}
+
+.event-card__content h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.event-card__content time {
+  display: inline-block;
+  margin-top: 4px;
+  color: #e7c57f;
+  font-size: 0.92rem;
+  font-weight: 500;
+}

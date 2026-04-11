@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    container_name: leonforge_db
+    restart: always
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    build: ./api
+    container_name: leonforge_api
+    restart: always
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - static_data:/src/staticfiles
+    command: >
+      sh -c "until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done &&
+             python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn --bind 0.0.0.0:8000 leon_forge_design.wsgi:application"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: leonforge_nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    volumes:
+      - static_data:/staticfiles:ro
+
+volumes:
+  postgres_data:
+  static_data:

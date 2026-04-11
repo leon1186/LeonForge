@@ -1,0 +1,115 @@
+/* frontend/src/components/LoveNotesSection.css */
+.love-notes {
+  position: relative;
+  min-height: 100vh;
+  background: #000;
+  color: #f5f5f5;
+  padding: 7rem 6vw;
+  overflow: hidden;
+}
+
+.love-notes__title {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  letter-spacing: 0.08em;
+  font-weight: 300;
+  font-family: "Bebas Neue", sans-serif; /* o tu fuente preferida */
+}
+
+.love-notes__line {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translateX(-50%);
+  width: min(260px, 45vw);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.love-note {
+  position: absolute;
+  max-width: 520px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.love-note__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+.love-note__text {
+  margin: 0 0 0.8rem;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.love-note__author {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.03em;
+}
+
+/* Posiciones estilo collage */
+.love-note--top-left {
+  top: 10%;
+  left: 6%;
+}
+
+.love-note--top-right {
+  top: 10%;
+  right: 6%;
+}
+
+.love-note--bottom-left {
+  bottom: 10%;
+  left: 26%;
+}
+
+/* Responsive: en móvil pasa a layout vertical */
+@media (max-width: 900px) {
+  .love-notes {
+    min-height: auto;
+    padding: 4rem 1.2rem;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .love-notes__title,
+  .love-notes__line {
+    position: static;
+    transform: none;
+    justify-self: center;
+  }
+
+  .love-notes__title {
+    font-size: clamp(2.4rem, 14vw, 4rem);
+    text-align: center;
+  }
+
+  .love-note {
+    position: static;
+    grid-template-columns: 84px 1fr;
+    max-width: 100%;
+  }
+
+  .love-note__photo {
+    width: 84px;
+    height: 84px;
+  }
+
+  .love-note__author {
+    font-size: 1.4rem;
+  }
+}

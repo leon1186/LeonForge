@@ -1,0 +1,17 @@
+docker compose exec db psql -U postgres -d leonforge
+docker compose exec api python manage.py makemigrations 
+docker compose exec api python manage.py migrate
+docker compose exec api python manage.py shell
+docker compose exec api python manage.py createsuperuser
+
+
+docker compose api backend pip install djangorestframework
+docker compose api backend pip install djangorestframework-authtoken
+
+docker compose exec api pip list
+
+http://localhost:8001
+http://localhost:8001/admin
+
+
+remember this is the website that im looking to get better on my own . I want people to check my site and be able to pay online to separate the event. let me show the web a get me in to it . also I have strip to get 50 percent of the payments. 

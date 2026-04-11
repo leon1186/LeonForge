@@ -1,0 +1,26 @@
+creating a token auth:
+
+docker compose exec api python manage.py shell
+
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+user = User.objects.get(username="leon1186")
+token, created = Token.objects.get_or_create(user=user)
+
+print(token.key)
+
+
+
+IF TOKEN IS EXPOSED:
+docker compose exec api python manage.py shell
+
+
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+
+user = User.objects.get(username="admin")
+
+Token.objects.filter(user=user).delete()
+Token.objects.create(user=user)
+#print(token.key)
