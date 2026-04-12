@@ -1,101 +1,84 @@
 # Leon Forge
 
-Aplicacion web con:
+Web application with:
 
 - Backend: Django + DRF
-- Base de datos: PostgreSQL
+- Database: PostgreSQL
 - Frontend: React + Vite
-- Orquestacion local: Docker Compose
+- Local Orchestration: Docker Compose
 
-## Requisitos
+## Requirements
 
-- Docker Desktop (con `docker compose` habilitado)
+- Docker Desktop (with `docker compose` enabled)
 - Node.js 20+
 - npm 10+
-- (Opcional) Git Bash/WSL para usar scripts `.sh`
+- (Optional) Git Bash/WSL to run `.sh` scripts
 
-## 1) Configurar variables de entorno
+## 1) Set up environment variables
 
-Crear un archivo `.env` en la raiz del proyecto (mismo nivel que `docker-compose.yml`):
+Create a `.env` file at the root of the project (same level as `docker-compose.yml`):
 
-```env
 POSTGRES_DB=leonforge
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_HOST=db
 POSTGRES_PORT=5432
-
 SECRET_KEY=unsafe-local-secret-key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001
 
-# Opcional (si usas S3)
+# Optional (if using S3)
+
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 AWS_S3_BUCKET_NAME=
 AWS_S3_REGION_NAME=sa-east-1
-```
 
-## 2) Levantar backend + base de datos (Docker)
+## 2) Start backend + database (Docker)
 
-### Opcion A: PowerShell (Windows)
+### Option A: PowerShell (Windows)
 
-```powershell
 docker compose up -d --build
 Start-Sleep -Seconds 10
 docker exec leonforge_api python manage.py migrate
 docker exec leonforge_api python manage.py shell -c "exec(open('./setup_data.py').read())"
-```
 
-### Opcion B: Script bash
+### Option B: Bash script
 
-```bash
 ./up.sh
-```
 
-Esto levanta:
+This starts:
 
-- API en `http://localhost:8000`
-- PostgreSQL en `localhost:5432`
+- API at http://localhost:8000
+- PostgreSQL at localhost:5432
 
-## 3) Levantar frontend (React + Vite)
+## 3) Start frontend (React + Vite)
 
-En otra terminal:
-
-```bash
+In another terminal:
 cd frontend
 npm install
 npm run dev
-```
 
-Frontend disponible en `http://localhost:5173`.
+Frontend available at http://localhost:5173.
+The frontend connects to the backend at http://localhost:8000/api.
 
-El frontend consume el backend en `http://localhost:8000/api`.
+## Useful Endpoints
 
-## Endpoints utiles
+- GET http://localhost:8000/api/events/
+- GET http://localhost:8000/api/events/s3-images/
+- POST http://localhost:8000/api/inquiries/
 
-- `GET http://localhost:8000/api/events/`
-- `GET http://localhost:8000/api/events/s3-images/`
-- `POST http://localhost:8000/api/inquiries/`
+## Shut down services
 
-## Apagar servicios
-
-```bash
 docker compose down
-```
 
-O usando script:
-
-```bash
+Or using script:
 ./down.sh
-```
 
-## Comandos utiles
+## Useful commands
 
-```bash
 docker compose logs -f api
 docker compose ps
 docker exec -it leonforge_api python manage.py createsuperuser
 docker exec -it leonforge_api python manage.py shell
-```
