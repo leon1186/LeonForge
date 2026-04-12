@@ -56,6 +56,39 @@
   gap: 12px;
 }
 
+.inquiry-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #eceef2;
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+
+.inquiry-field span {
+  color: #172036;
+  font-weight: 600;
+}
+
+.inquiry-field input {
+  width: 100%;
+  border: 1px solid #d8dde6;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #333f52;
+  font-size: 1rem;
+  padding: 10px 12px;
+}
+
+.inquiry-field input:focus,
+.comment-section textarea:focus,
+.inquiry-status-select:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.12);
+  outline-offset: 1px;
+}
+
 .inquiry-detail-grid p {
   margin: 0;
   padding: 12px 14px;

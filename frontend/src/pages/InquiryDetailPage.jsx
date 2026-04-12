@@ -8,12 +8,23 @@ import {
 import "./InquiryDetailPage.css";
 import ConfirmModal from "../components/ConfirmModal";
 
+const INITIAL_FORM_STATE = {
+  name: "",
+  email: "",
+  event_type: "",
+  event_date: "",
+  event_time: "",
+  location: "",
+  guests: "",
+  comments: "",
+  status: "Pending",
+};
+
 function InquiryDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [inquiry, setInquiry] = useState(null);
-  const [status, setStatus] = useState("");
-  const [comments, setComments] = useState("");
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState(""); // "update" o "delete"
 
@@ -23,7 +34,17 @@ function InquiryDetailPage() {
         const data = await getInquiryById(id);
 
         setInquiry(data);
-        setStatus(data.status);
+        setFormData({
+          name: data.name ?? "",
+          email: data.email ?? "",
+          event_type: data.event_type ?? "",
+          event_date: data.event_date ?? "",
+          event_time: data.event_time ?? "",
+          location: data.location ?? "",
+          guests: data.guests ?? "",
+          comments: data.comments ?? "",
+          status: data.status ?? "Pending",
+        });
       } catch (error) {
         console.error("Error loading inquiry detail:", error);
       }
@@ -48,12 +69,28 @@ function InquiryDetailPage() {
     );
   }
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]: value,
+    }));
+  };
+
   const confirmAction = async () => {
     try {
       if (actionType === "update") {
         await updateInquiry(id, {
-          status: status,
-          comments: comments,
+          name: formData.name,
+          email: formData.email,
+          event_type: formData.event_type,
+          event_date: formData.event_date,
+          event_time: formData.event_time,
+          location: formData.location,
+          guests: formData.guests === "" ? null : Number(formData.guests),
+          comments: formData.comments,
+          status: formData.status,
         });
       } else if (actionType === "delete") {
         await deleteInquiry(id);
@@ -81,27 +118,76 @@ function InquiryDetailPage() {
         </div>
 
         <div className="inquiry-detail-grid">
-          <p>
-            <strong>Name:</strong> {inquiry.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {inquiry.email}
-          </p>
-          <p>
-            <strong>Event Type:</strong> {inquiry.event_type}
-          </p>
-          <p>
-            <strong>Event Date:</strong> {inquiry.event_date}
-          </p>
-          <p>
-            <strong>Event Time:</strong> {inquiry.event_time}
-          </p>
-          <p>
-            <strong>Location:</strong> {inquiry.location}
-          </p>
-          <p>
-            <strong>Guests:</strong> {inquiry.guests}
-          </p>
+          <label className="inquiry-field">
+            <span>Name</span>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Email</span>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Event Type</span>
+            <input
+              type="text"
+              name="event_type"
+              value={formData.event_type}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Event Date</span>
+            <input
+              type="date"
+              name="event_date"
+              value={formData.event_date}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Event Time</span>
+            <input
+              type="time"
+              name="event_time"
+              value={formData.event_time}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Location</span>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+            />
+          </label>
+
+          <label className="inquiry-field">
+            <span>Guests</span>
+            <input
+              type="number"
+              min="0"
+              name="guests"
+              value={formData.guests}
+              onChange={handleChange}
+            />
+          </label>
         </div>
         <div className="comment-section">
           <label className="" htmlFor="admin-comment">
@@ -112,16 +198,21 @@ function InquiryDetailPage() {
             name="admin-comment"
             rows="4"
             placeholder="Add your comment here..."
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
+            value={formData.comments}
+            onChange={(e) =>
+              setFormData((previousData) => ({
+                ...previousData,
+                comments: e.target.value,
+              }))
+            }
           ></textarea>
         </div>
         <div className="actions">
           <select
             name="status"
             id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            value={formData.status}
+            onChange={handleChange}
             className="inquiry-status-select"
           >
             <option value="Refused">Refused</option>

@@ -99,10 +99,3 @@ docker compose ps
 docker exec -it leonforge_api python manage.py createsuperuser
 docker exec -it leonforge_api python manage.py shell
 ```
-
-## Troubleshooting rapido
-
-- Si `./up.sh` falla en Windows, ejecuta los comandos de la seccion PowerShell.
-- Si la API no conecta a Postgres, verifica que el `.env` exista en la raiz.
-- Si el frontend no responde, confirma que corre en el puerto `5173` (`npm run dev`).
-- Si tienes error de CORS, revisa `CORS_ALLOWED_ORIGINS` en `.env`.

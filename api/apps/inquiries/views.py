@@ -46,7 +46,8 @@ class InquiriesView(APIView):
 
         serializer.is_valid(raise_exception=True)
         inquiry_saved = serializer.save()
+        updated_serializer = InquirySerializer(inquiry_saved)
 
         return Response({
-            "result": f"Inquiry id {inquiry_saved.id} updated"
+            "result": updated_serializer.data
         }, status=200)
